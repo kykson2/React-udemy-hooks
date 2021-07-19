@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Accordian from "./component/Accordion";
 import Search from "./component/Search";
 import Dropdown from "./component/Dropdown";
+import Route from "./component/Route";
+import Header from "./component/Header";
 
 const items = [
   {
@@ -34,9 +36,31 @@ const options = [
 ];
 
 const App = () => {
+  const [selected, setSelected] = useState(options[0]);
+  const [showDropdown, setShowDropdown] = useState(true);
   return (
     <div>
-      <Dropdown options={options} />
+      <Header />
+      <Route path="/">
+        <Accordian items={items} />
+      </Route>
+      <Route path="/dropdown">
+        <div>
+          <button onClick={() => setShowDropdown(!showDropdown)}>
+            Toggle Dropdown
+          </button>
+          {showDropdown ? (
+            <Dropdown
+              selected={selected}
+              onSelectedChange={setSelected}
+              options={options}
+            />
+          ) : null}
+        </div>
+      </Route>
+      <Route path="/search">
+        <Search />
+      </Route>
     </div>
   );
 };
